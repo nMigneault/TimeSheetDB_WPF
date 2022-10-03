@@ -5,6 +5,7 @@ Une application de bureau avec interface qui permet aux employés de remplir leu
 permet à un manager d'effectuer la validation du temps travaillé par des employés dans le respect 
 des règles de l’entreprise en un seul clic. 
 
+Projet scolaire, équipe de 3 personnes, durée 17 jours à temps partiel.
 
 Spécifications
 --------------
