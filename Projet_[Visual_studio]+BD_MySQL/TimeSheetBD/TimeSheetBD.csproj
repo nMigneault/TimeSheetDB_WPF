@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dao\**" />
+    <Compile Remove="pdf\**" />
+    <EmbeddedResource Remove="Dao\**" />
+    <EmbeddedResource Remove="pdf\**" />
+    <None Remove="Dao\**" />
+    <None Remove="pdf\**" />
+    <Page Remove="Dao\**" />
+    <Page Remove="pdf\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="20.2.0.50" />
+  </ItemGroup>
+
+</Project>

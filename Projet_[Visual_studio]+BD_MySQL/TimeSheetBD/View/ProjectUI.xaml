@@ -1,0 +1,66 @@
+﻿<Window x:Class="TimeSheetBD.View.ProjectUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeSheetBD.View"
+        mc:Ignorable="d"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Title="Gestion des projets" Height="600" Width="700" Loaded="WindowLoaded" >
+    
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="165"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="160*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        
+        <!-- titre -->
+        <StackPanel Grid.ColumnSpan="7" Margin="10,20,10,10" Background="LightGray"  >
+            <Label Content="Gestionnaire de projets" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="40" Margin="0,12,0,0" 
+                   VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" FontSize="24" Foreground="Black" />
+        </StackPanel>
+        
+        <!-- inputs -->
+        <StackPanel Margin="10,5,10,0" Grid.Row="1">
+            <TextBlock Text="Numéro ID du projet : " Margin="5" />
+            <TextBox x:Name="txtProjectId" Height="20" ToolTip="Veuillez saisir le numéro de projet" 
+                            TabIndex="1" />
+            <TextBlock Text="Nom du projet : " Margin="5" />
+            <TextBox x:Name="txtProjectName" Height="20" ToolTip="Veuillez saisir le nom du projet" 
+                            TabIndex="2" />
+            <TextBlock Text="Description : " Margin="5"/>
+            <TextBox x:Name="txtProjectDescription" Height="20" ToolTip="Veuillez saisir la description du projet" 
+                            TabIndex="3" TextWrapping="Wrap" AcceptsReturn="True" />
+        </StackPanel>
+        
+        <!-- buttons -->
+        <WrapPanel Grid.Row="2" VerticalAlignment="Center" Margin="10" >
+            <Button x:Name="btnAdd" Content="Ajouter" Margin="5" Width="125" Height="30" Click="btnAdd_Click" 
+                        TabIndex="4" />
+            <Button x:Name="btnModify" Content="Modifier" Margin="5" Width="125" Height="30" Click="btnModify_Click" 
+                        TabIndex="5" />
+            <Button x:Name="btnCancel" Content="Réinitialiser" Margin="5" Width="125" Height="30"
+                        TabIndex="7" Click="btnCancel_Click" />
+            <Button x:Name="btnDelete" Content="Supprimer" Margin="5" Width="125" Height="30" Click="btnDelete_Click" 
+                        TabIndex="6" />
+        </WrapPanel>
+        
+        <!-- Projects List -->
+        <ListView x:Name ="lsvProject" Grid.Row="3" Margin="10" SelectionChanged="showProjectValues"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Num de projet" Width="90" DisplayMemberBinding="{Binding ProjectId}"/>
+                    <GridViewColumn Header="Nom du projet" Width="120" DisplayMemberBinding="{Binding ProjectName}" />
+                    <GridViewColumn Header="Description" Width="450" DisplayMemberBinding="{Binding ProjectDescription}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <Button x:Name="btnBack" Content="Retour" Grid.Row="4" HorizontalAlignment="Right" Margin="10" Width="125" Height="30" 
+                        TabIndex="8" Click="btnBack_Click" />
+
+    </Grid>
+</Window>

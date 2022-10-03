@@ -1,0 +1,164 @@
+﻿<Window x:Class="TimeSheetBD.View.TimeCardManagerUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeSheetBD.View"
+        mc:Ignorable="d"
+        Title="Gestion des cartes de temps" Height="700" Width="960" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="initUI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="140*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="140*"/>
+            <RowDefinition Height="180*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- titre -->
+        <StackPanel Grid.ColumnSpan="7" Margin="10,20,10,10" Background="LightGray"  >
+            <Label Content="Gestionnaire de feuilles de temps" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="40" Margin="0,12,0,0" 
+                   VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" FontSize="24" Foreground="Black" />
+        </StackPanel>
+
+        <!-- identification de l'employé -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="WhiteSmoke" Margin="10,10,10,10">
+            <Label Content="Identification de l'employé" HorizontalAlignment="Center" Margin="5" FontWeight="Bold" />
+            <WrapPanel >
+                <TextBlock Text="ID employé : " Width="100" TextAlignment="Right" FontStyle="Italic"/>
+                <TextBox x:Name="txtEmployeeId" FontStyle="Italic" Background="{x:Null}" BorderBrush="{x:Null}"  />
+            </WrapPanel>
+            <WrapPanel >
+                <TextBlock Text="Nom : " Width="100" TextAlignment="Right" FontStyle="Italic"/>
+                <TextBox x:Name="txtLastName" FontStyle="Italic" Background="{x:Null}" BorderBrush="{x:Null}" />
+            </WrapPanel>
+            <WrapPanel >
+                <TextBlock Text="Prénom : " Width="100" TextAlignment="Right" FontStyle="Italic"/>
+                <TextBox x:Name="txtFirstName" FontStyle="Italic" Background="{x:Null}" BorderBrush="{x:Null}" />
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- Liste des cartes de temps -->
+        <Label Content="Liste des cartes de temps" Grid.ColumnSpan="3" Grid.Column="2" Grid.Row="1" Margin="10,5,0,10" FontWeight="Bold" TabIndex="1" />
+        <ScrollViewer Grid.Row="1" Margin="10,30,0,10" HorizontalAlignment="Left" Width="396" Grid.ColumnSpan="4" Grid.Column="2" HorizontalScrollBarVisibility="Auto">
+            <StackPanel  >
+                <ListView x:Name ="lsvTimeCard" ToolTip="Double clique sur une carte pour afficher les détails" MouseDoubleClick="lsvTimeCard_MouseDoubleClick"  >
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="Semaine du " Width="180" 
+                                    DisplayMemberBinding="{Binding StartDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                            <GridViewColumn Header="au " Width="180"
+                                    DisplayMemberBinding="{Binding EndDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- boutons -->
+        <Button x:Name="btnShowDetails" Content="Afficher les détails" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="125" Height="30" TabIndex="2" Click="btnShowDetailsClick"/>
+
+        <!-- label pour les jours de la semaine -->
+        <TextBlock x:Name="lblMonday" Grid.Row="2" Grid.Column="0" Text="Lundi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <TextBlock x:Name="lblTuesday" Grid.Row="2" Grid.Column="1" Text="Mardi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblWedsnay" Grid.Row="2" Grid.Column="2" Text="Mercredi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblThursday" Grid.Row="2" Grid.Column="3" Text="Jeudi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblFriday" Grid.Row="2" Grid.Column="4" Text="Vendredi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblSaturday" Grid.Row="2" Grid.Column="5" Text="Samedi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblSunday" Grid.Row="2" Grid.Column="6" Text="Dimanche"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+        <!-- listes des jours avec temps et projets -->
+        <ListView x:Name="lstDay1"  Grid.Row="3" Grid.Column="0" Margin="10,0,0,10"  >
+            <ListView.View>
+                <GridView x:Name="grdDay1">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée"  DisplayMemberBinding="{Binding Duration}" Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay2" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"  >
+            <ListView.View>
+                <GridView x:Name="grdDay2">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay3" Grid.Row="3" Grid.Column="2" Margin="0,0,0,10"  >
+            <ListView.View>
+                <GridView x:Name="grdDay3">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="50" />
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        <ListView x:Name="lstDay4" Grid.Row="3" Grid.Column="3" Margin="0,0,0,10"  >
+            <ListView.View>
+                <GridView x:Name="grdDay4">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay5" Grid.Row="3" Grid.Column="4" Margin="0,0,0,10"  >
+            <ListView.View>
+                <GridView x:Name="grdDay5">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}"  Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstWeekend1" Grid.Row="3" Grid.Column="5" Margin="0,0,0,10" >
+            <ListView.View>
+                <GridView x:Name="grdWeekend1">
+                    <GridViewColumn Header="Projet"  DisplayMemberBinding="{Binding ProjectId}"  Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstWeekend2" Grid.Row="3" Grid.Column="6" Margin="0,0,10,10" >
+            <ListView.View>
+                <GridView x:Name="grdWeekend2">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding ProjectId}" Width="50" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}"  Width="50" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- zone d'affichage des messages -->
+        <ScrollViewer Grid.Row="4" Grid.ColumnSpan="6" Margin="10,10,10,10" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+            <StackPanel Background="LightCyan" >
+                <TextBlock x:Name="txbResults" Padding="8" TextWrapping="Wrap"  >
+            Résultats :
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- bouton retour (en bas) -->
+        <StackPanel Grid.Column="6" Grid.Row="4" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="155" >
+            <Button x:Name="btnValidate" Content="Valider" Margin="0,10,0,5" Width="125" Height="30" TabIndex="3" Click="btnValidateClick"/>
+            <Button x:Name="btnExportPDF" Content="Exporter en PDF" Margin="0,10,0,10" Width="125" Height="30" TabIndex="5" Click="btnExportPdfClick" />
+        </StackPanel>
+
+        <Button x:Name="btnBack" Content="Retour" Grid.Row="5" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="125" Height="30"  TabIndex="5" Click="btnBack_Click"/>
+
+
+    </Grid>
+</Window>

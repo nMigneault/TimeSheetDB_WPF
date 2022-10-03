@@ -1,0 +1,183 @@
+﻿<Window x:Class="TimeSheetBD.View.TimeCardUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeSheetBD.View"
+        mc:Ignorable="d"
+        Title="Ma feuille de temps" Height="600" Width="960" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Loaded="WindowLoaded" Activated="Window_Activated" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- titre -->
+        <StackPanel Grid.ColumnSpan="7" Margin="10,20,10,10" Background="LightGray"  >
+            <Label Content="Mes feuilles de temps" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Height="40" Margin="0,12,0,0" 
+                   VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" FontSize="24" Foreground="Black" />
+        </StackPanel>
+
+        <!-- identification de l'employé -->
+        <StackPanel Grid.ColumnSpan="7" Grid.Row="1" Margin="10,0,10,0" Background="DarkGray" >
+            <DockPanel Margin="10,8,0,0" >
+                <Label x:Name="lblEmployeeId" Content="Employé : " VerticalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" FontSize="14" Foreground="Black" Width="80"/>
+                <TextBox x:Name="txtId" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontFamily="Arial" FontStyle="Italic" FontSize="14" MaxLines="1" FontWeight="Bold" Foreground="Black"  Width="500" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"  />
+            </DockPanel>
+        </StackPanel>
+
+        <!-- bouton changer mot de passe -->
+        <Button x:Name="btnChangePassword" Content="Changer mon mot de passe" Grid.Row="1" Grid.ColumnSpan="7" Width="255" Height="30" Margin="0,0,20,0" 
+                VerticalAlignment="Center" HorizontalAlignment="Right" Background="WhiteSmoke" TabIndex="0" Click="btnChangePassword_Click"  />
+
+        <!-- saisie de la date -->
+        <StackPanel Grid.ColumnSpan="4" Grid.Row="2" Margin="10,10,70,40" Background="WhiteSmoke"  >
+            <DockPanel HorizontalAlignment="Left" Margin="25,20,0,0" >
+                <Label x:Name="lblPickDate" Content="Sélectionner une date dans la semaine : " Width="230" HorizontalAlignment="Left" FontFamily="Arial" FontSize="12" FontWeight="Bold" Foreground="Red" />
+                <DatePicker x:Name="dtpSelectedDay" Width="160" ToolTip="Vous devez choisir une date" Height="30" FontFamily="Arial" HorizontalAlignment="Left" VerticalAlignment="Center" TabIndex="1" SelectedDateChanged="handlePickDate" IsTabStop="True" AllowDrop="True" />
+            </DockPanel>
+
+            <DockPanel Margin="0,5,0,0" Width="392" HorizontalAlignment="Center" >
+                <TextBlock x:Name="txbStart" Height="16" FontFamily="Arial" FontSize="12" Foreground="Black"/>
+                <TextBlock x:Name="txbEnd" Height="16" FontFamily="Arial" FontSize="12" Foreground="Black" />
+            </DockPanel>
+        </StackPanel>
+
+        <!-- saisie du jour, du projet et de la durée -->
+        <StackPanel Grid.ColumnSpan="7" Grid.Row="2" Margin="485,10,10,0" Background="WhiteSmoke" >
+            <!-- jour de la semaine -->
+            <DockPanel HorizontalAlignment="Left" Margin="20,20,0,5">
+                <TextBlock x:Name="lblWeekDays" Text="Jour :" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial"/>
+                <ComboBox x:Name="cbxWeekDays" DockPanel.Dock="Right" HorizontalContentAlignment="Left" Height="20" Width="180" IsEditable="False" 
+                          IsReadOnly="True" ToolTip="Veuillez sélectionner une journée" TabIndex="2" />
+            </DockPanel>
+            <!-- projet -->
+            <DockPanel HorizontalAlignment="Left" Margin="20,10,0,5">
+                <TextBlock x:Name="lblProject" Text="Projet:" Width="50" FontFamily="Arial" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbxProject" Width="180" DockPanel.Dock="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                          ToolTip="Veuillez entrer le numéro de projet" FontFamily="Arial" Height="20" IsEditable="False" IsReadOnly="True" 
+                          TabIndex="3" />
+            </DockPanel>
+            <!-- durée -->
+            <DockPanel HorizontalAlignment="Left" Margin="20,10,0,5">
+                <TextBlock x:Name="lblDuration" Text="Durée:" Width="50" FontFamily="Arial" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtDuration" Width="180" DockPanel.Dock="Right" MaxLines="1" HorizontalContentAlignment="Left"
+                         VerticalContentAlignment="Center" FontFamily="Arial" Height="20" 
+                         ToolTip="Veuillez entrer la durée du projet en minutes" TabIndex="4" />
+            </DockPanel>
+        </StackPanel>
+
+        <!-- boutons de gestion des projets -->
+        <StackPanel Grid.ColumnSpan="7" Grid.Row="2" Margin="765,10,0,2"   >
+            <WrapPanel Grid.Column="2" Grid.Row="3" Margin="0,5,0,0" Grid.ColumnSpan="2">
+                <Button x:Name="btnAdd" Content="Ajouter" Width="140" Height="30" Margin="0,8,0,0" 
+                        TabIndex="5" Click="btnAddClick" />
+                <Button x:Name="btnModify" Content="Modifier" Width="140" Height="30" Margin="0,8,0,0"  
+                        TabIndex="6" Click="btnModify_Click" />
+                <Button x:Name="btnDelete" Content="Supprimer" Width="140" Height="30" Margin="0,8,0,0" 
+                        TabIndex="7" Click="btnDelete_Click" />
+            </WrapPanel>
+        </StackPanel>
+
+        <Button x:Name="btnInitialize" Content="Recommencer" Grid.Row="2" Margin="10,0,0,0" Width="125" Height="30"
+                VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                TabIndex="10" Click="btnInitializeClick" />
+
+        <!-- boutons de controles (en bas) -->
+        <Button x:Name="btnExportPDF" Content="Exporter en PDF" Grid.Row="6" Grid.Column="5" Width="125" Height="30" Margin="0,0,10,12" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                Click="btnExportPdfClick" TabIndex="8" />
+        <Button x:Name="btnQuit" Content="Quitter" Grid.Row="6" Grid.Column="6" Width="124" Height="30" Margin="0,0,10,12" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                Click="btnQuitClick" TabIndex="9" />
+
+        <!-- label pour les jours de la semaine -->   
+        <TextBlock x:Name="lblMonday" Grid.Row="4" Grid.Column="0" Text="Lundi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <TextBlock x:Name="lblTuesday" Grid.Row="4" Grid.Column="1" Text="Mardi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblWedsnay" Grid.Row="4" Grid.Column="2" Text="Mercredi" FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblThursday" Grid.Row="4" Grid.Column="3" Text="Jeudi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblFriday" Grid.Row="4" Grid.Column="4" Text="Vendredi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblSaturday" Grid.Row="4" Grid.Column="5" Text="Samedi"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblSunday" Grid.Row="4" Grid.Column="6" Text="Dimanche"  FontFamily="Arial" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+        <!-- listes des jours avec temps et projets -->
+        <ListView x:Name="lstDay1" Grid.Row="5"  Margin="10,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50"  >
+            <ListView.View>
+                <GridView x:Name="grdDay1">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="63" />
+                    <GridViewColumn Header="Durée"  DisplayMemberBinding="{Binding Duration}" Width="63" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay2" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50"  >
+            <ListView.View>
+                <GridView x:Name="grdDay2">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="68" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="69" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay3" Grid.Row="5" Grid.Column="2" Margin="0,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50" >
+            <ListView.View>
+                <GridView x:Name="grdDay3">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="68" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="69" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay4" Grid.Row="5" Grid.Column="3" Margin="0,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50"  >
+            <ListView.View>
+                <GridView x:Name="grdDay4">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="68" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="69" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstDay5" Grid.Row="5" Grid.Column="4" Margin="0,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50" >
+            <ListView.View>
+                <GridView x:Name="grdDay5">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="68" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}"  Width="69" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstWeekend1" Grid.Row="5" Grid.Column="5" Margin="0,0,0,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50" >
+            <ListView.View>
+                <GridView x:Name="grdWeekend1">
+                    <GridViewColumn Header="Projet"  DisplayMemberBinding="{Binding Project.ProjectId}"  Width="68" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}" Width="69" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView x:Name="lstWeekend2" Grid.Row="5" Grid.Column="6" Margin="0,0,10,10" SelectionChanged="showValues" ToolTip="sélectionner un projet pour le modifier" TabIndex="50" >
+            <ListView.View>
+                <GridView x:Name="grdWeekend2">
+                    <GridViewColumn Header="Projet" DisplayMemberBinding="{Binding Project.ProjectId}" Width="64" />
+                    <GridViewColumn Header="Durée" DisplayMemberBinding="{Binding Duration}"  Width="63" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
